@@ -8,8 +8,9 @@ public class Inventory : MonoBehaviour
     public GameObject slotHolder;
     private bool inventoryEnabled;
 
-    private int slots;
-    private Transform[] slot;
+    private int slotsCount;
+    //private Transform[] slot;
+    private List<Slot> slot = new List<Slot>();
 
     private GameObject itemPickedUp;
     private bool itemAdded;
@@ -17,8 +18,8 @@ public class Inventory : MonoBehaviour
 
     public void Start()
     {
-        slots = slotHolder.transform.childCount;
-        slot = new Transform[slots];
+        slotsCount = slotHolder.transform.childCount;
+        //slot = new Transform[slots];
         DetectInventorySlots();
     }
 
@@ -44,6 +45,7 @@ public class Inventory : MonoBehaviour
     {
         if(other.gameObject.GetComponent<Item>())
         {
+            Debug.Log("Test");
             itemPickedUp = other.gameObject;
             AddItem(itemPickedUp);
         }
@@ -61,22 +63,28 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(GameObject item)
     {
-        for( int i = 0; i < slots; i++)
+        Debug.Log("item addded 0");
+        for ( int i = 0; i < slotsCount; i++)
         {
-            if (slot[i].GetComponent<Slot>().empty && itemAdded == false)
+            Debug.Log("item addded 1");
+            Debug.Log("itemAdded: " + itemAdded);
+            Debug.Log("slot[i].empty: " + slot[i].empty);
+            if (slot[i].empty && itemAdded == false)
             {
-                slot[i].GetComponent<Slot>().item = itemPickedUp;
-                slot[i].GetComponent<Slot>().itemIcon = itemPickedUp.GetComponent<Item>().icon;
+                slot[i].item = itemPickedUp;
+                slot[i].itemIcon = itemPickedUp.GetComponent<Item>().icon;
                 itemAdded = true;
+                Debug.Log("item addded 2");
             }
         }
     }
 
     public void DetectInventorySlots()
     {
-        for (int i = 0; i < slots; i++)
+        for (int i = 0; i < slotsCount; i++)
         {
-            slot[i] = slotHolder.transform.GetChild(i);
+            //slot[i] = slotHolder.transform.GetChild(i).GetComponent<Slot>();
+            slot.Add(slotHolder.transform.GetChild(i).GetComponent<Slot>());
         }
     }
 

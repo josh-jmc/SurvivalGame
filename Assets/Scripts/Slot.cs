@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private bool hovered;
+    public bool hovered;
     public bool empty;
 
     public GameObject item;
